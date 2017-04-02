@@ -18,4 +18,6 @@ void getDecodedResult(char *output);
 
 void removeCheckBits(char *buffer, char *output, int index);
 
+void hammingDecoder(int current_position, char *message);
+
 #endif
