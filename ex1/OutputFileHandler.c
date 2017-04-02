@@ -14,7 +14,7 @@ void openFile(char* output_path)
 	if (output_file != NULL)
 		return;
 	last_error = GetLastError();
-	output_file = fopen(output_path, "w+");
+	output_file = fopen(output_path, "wb");
 	if (output_file == NULL)
 	{
 		printf("Unable to open output file\n");
@@ -36,7 +36,7 @@ void writeToFile(const char* message)
 	if (output_file == NULL)
 		return;
 
-	fwrite(message, BITS_IN_BYTE, CODE_DATA_SIZE, output_file);
+	fwrite(message, sizeof(char), CODE_DATA_SIZE, output_file);
 }
 
 
