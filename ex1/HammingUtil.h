@@ -5,6 +5,8 @@
 #define CODE_DATA_SIZE 57
 #define BITS_IN_BYTE 8
 
+#define powerTwo(x) 1 << x
+
 typedef struct file_decryption
 {
 	int received_counter;

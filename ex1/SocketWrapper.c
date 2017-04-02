@@ -87,7 +87,7 @@ BOOL receivePacketsFromSocket(SOCKET socket, char* buffer)
 		//handle
 		if (total_received >= BUFFER_SIZE)
 		{
-			decryptBuffer(buffer);
+			decodeBuffer(buffer);
 			
 			cur_place_ptr = buffer;
 			total_received = count;

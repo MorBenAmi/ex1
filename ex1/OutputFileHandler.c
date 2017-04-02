@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include "OutputFileHandler.h"
+#include "HammingUtil.h"
 
 static FILE* output_file;
 /*oOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoO*/
@@ -35,7 +36,7 @@ void writeToFile(const char* message)
 	if (output_file == NULL)
 		return;
 
-	fputs(message, output_file);
+	fwrite(message, BITS_IN_BYTE, CODE_DATA_SIZE, output_file);
 }
 
 
