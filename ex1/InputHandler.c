@@ -3,6 +3,8 @@
 #include "HammingUtil.h"
 #include "OutputFileHandler.h"
 
+#define WORD_COUNT 8
+
 void decodeBuffer(char *buffer)
 {
 	int current_position = 0;
@@ -13,11 +15,14 @@ void decodeBuffer(char *buffer)
 		hammingDecoder(current_position, buffer); //Correct errors
 
 	//Print decoded buffer to file
-	for (i = 0; i < 8; i++)
+	//We are handling everytime 8 words at a time
+	for (i = 0; i < WORD_COUNT; i++)
 	{
 		//Convert 63 bits into 57 bits
 		removeCheckBits(buffer, decodedMessage, i);
 	}
 
+	decodedMessage[CODE_DATA_SIZE] = '\0';
+		
 	writeToFile(decodedMessage);	
 }

@@ -7,14 +7,14 @@
 
 #define powerTwo(x) 1 << x
 
-typedef struct file_decryption
+typedef struct file_decorder
 {
 	int received_counter;
 	int wrote_counter;
 	int corrected_counter;
-} file_decryption;
+} file_decorder;
 
-void getDecryptedResult(char *output);
+void getDecodedResult(char *output);
 
 void removeCheckBits(char *buffer, char *output, int index);
 
