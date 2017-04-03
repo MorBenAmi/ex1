@@ -8,6 +8,7 @@ Exercise 4*/
 #include "OutputFileHandler.h"
 #include "InputHandler.h"
 
+#define RESULT_LENGTH 300
 /*oOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoO*/
 int main(int argc, char* argv[])
 {
@@ -16,8 +17,8 @@ int main(int argc, char* argv[])
 	SOCKET socket = NULL;
 	char buffer[BUFFER_SIZE];
 	char *output_path = NULL;
-	char decryption_result[1000];
-
+	char decryption_result[RESULT_LENGTH];
+	
 	address = argv[1];
 	port = atoi(argv[2]);
 	output_path = argv[3];
@@ -32,13 +33,12 @@ int main(int argc, char* argv[])
 	if (receivePacketsFromSocket(socket, buffer) == FALSE)
 	{
 		SetLastError(WSAGetLastError());
-		//write_log_and_print("Error while trying to receive data to socket. Error code: 0x%x\n", GetLastError());
 		return GetLastError();
 	}
 	else 
 	{
 		//Finished reading from socket. Replying with result.
-		getDecryptedResult(decryption_result);
+		getDecodedResult(decryption_result);
 		fprintf(stderr, "%s", decryption_result);
 		if (writeToSocket(socket, decryption_result) == FALSE)
 		{

@@ -72,7 +72,6 @@ BOOL receivePacketsFromSocket(SOCKET socket, char* buffer)
 			WSASetLastError(0);
 			Sleep(100);
 			count = recv(socket, cur_place_ptr, BUFFER_SIZE, 0);
-			//TODO mor check if necessary 
 		}
 		if (count == SOCKET_ERROR) 
 		{
@@ -80,14 +79,13 @@ BOOL receivePacketsFromSocket(SOCKET socket, char* buffer)
 			return FALSE;
 		}		
 		else if (count == 0) 
-			//todo do we need to handle it?
 			return TRUE; // recv() returns zero if connection was gracefully disconnected.
 
 		total_received += count;
 		//handle
 		if (total_received >= BUFFER_SIZE)
 		{
-			decryptBuffer(buffer);
+			decodeMessage(buffer);
 			
 			cur_place_ptr = buffer;
 			total_received = count;
