@@ -103,27 +103,26 @@ BOOL writeByteToSocket(SOCKET socket, unsigned char byte)
 	return TRUE;
 }
 
-BOOL connectSocket(int port, char* ip, SOCKET *socket_client)
+BOOL connectSocket(char * address, int port, SOCKET *socket_client)
 {
-	SOCKADDR_IN clientService;
+	SOCKADDR_IN socket_addr;
 	
-	*socket_client = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	*socket_client = socket(PF_INET, SOCK_STREAM, 0);
 	if(*socket_client == INVALID_SOCKET)
 	{
 		SetLastError(WSAGetLastError());
 		return FALSE;
 	}
 
-	clientService.sin_family = AF_INET;
-	clientService.sin_port = htons(port);
-	clientService.sin_addr.s_addr = inet_addr(ip);
+	socket_addr.sin_family = PF_INET;
+	socket_addr.sin_port = htons(port);
+	socket_addr.sin_addr.s_addr = inet_addr(address);
 
-	if (connect(*socket_client, (SOCKADDR*) &clientService, sizeof(clientService) ) == SOCKET_ERROR) 
+	if (connect(*socket_client, (SOCKADDR*) &socket_addr, sizeof(socket_addr) ) == SOCKET_ERROR)
 	{
         SetLastError(WSAGetLastError());
 		WSACleanup();
         return FALSE;
     }
-
 	return TRUE;
 }

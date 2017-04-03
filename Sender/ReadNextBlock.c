@@ -4,19 +4,19 @@
 static char extra_bits = 0;
 static int extra_bits_count = 0;
 
-BOOL ReadNextBlock(FILE file, unsigned char block[8])
+BOOL ReadNextBlock(FILE *file, unsigned char block[8])
 {
 	int i = 0;
 	int bytes_to_read = 8;
 	unsigned char temp = 0;
-	unsigned char next_char = 0;
+	char next_char = 0;
 
 	if(extra_bits_count > 0)
 		bytes_to_read = 7;
 
 	for(i = 0; i < bytes_to_read; i++)
 	{
-		next_char = fgetc(&file);
+		next_char = fgetc(file);
 		if(next_char == EOF) 
 			return FALSE;
 

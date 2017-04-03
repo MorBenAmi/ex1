@@ -29,8 +29,12 @@ int main(int argc, char* argv[])
 	unsigned char hamming_block_test[8] = {0};
 
 	TransformHammingBlock(block_test, hamming_block_test);*/
+	if(initWSA() == FALSE)
+	{
+		//todo: error...
+	}
 
-	if(argc!=3)
+	if(argc!=4)
 	{
 		printf("Not enough input arguments");
 		return;
@@ -40,25 +44,30 @@ int main(int argc, char* argv[])
 	port=atoi(argv[2]);
 	file_name=argv[3];
 
-	if(connectSocket(port, channel_ip, &channel_socket) == FALSE)
+	if(connectSocket(channel_ip, port, &channel_socket) == FALSE)
 	{
 		printf("Error accured while tring to connect to socket..");
 		return GetLastError();
 	}
 
-	file=fopen(file_name, "r");
+	file=fopen(file_name, "rb");
 	if (file == NULL)
 	{
 		printf("Unable to open file\n");
 		return GetLastError();
 	}
 
-	while(ReadNextBlock(*file, block) == TRUE)
+	memset(hamming_block,0,8);
+	memset(block,0,8);
+	while(ReadNextBlock(file, block) == TRUE)
 	{
 		TransformHammingBlock(block, hamming_block);
 		WriteHammingBlockToSocket(channel_socket, hamming_block);
+		memset(hamming_block,0,8);
+		memset(block,0,8);
 	}
 	closeSend(channel_socket);
+	fclose(file);
 
 
 	memset(finish_message, '\0', MAX_FINISH_MESSAGE_LENGTH);

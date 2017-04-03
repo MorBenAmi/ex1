@@ -12,7 +12,7 @@ unsigned char addErrorToByte(unsigned char byte, double error_prob, int *num_of_
 	for(i=0;i<8;i++)
 	{
 		temp=1<<i;
-		if((rand()/(RAND_MAX+1))<=error_prob)
+		if(((double)rand()/(RAND_MAX+1))<=error_prob)
 		{
 			byte=byte^temp;
 			*num_of_changes = (*num_of_changes) + 1;
@@ -40,14 +40,13 @@ int main(int argc, char* argv[])
 	char* receiver_ip = NULL;
 	unsigned char byte = 0;
 
-	if(argc!=4)
+	if(argc!=5)
 	{
+		printf("%d", argc);
 		printf("Not enough input arguments");
 		return;
 	}
 
-	//init random
-	srand(random_seed);
 
 	if(initWSA() == FALSE)
 	{
@@ -59,21 +58,30 @@ int main(int argc, char* argv[])
 	error=atof(argv[3]);
 	random_seed=atoi(argv[4]);
 
+	//init random
+	srand(random_seed);
+
 	//wait for receiver...
 	if(sockListen(reciever_port, &listen_socket) == FALSE){
-		//todo: error...
+		fprintf(stderr, "Failed to listen to Receiver on port %d, error_code: 0x%x\n", reciever_port, GetLastError());
+		return GetLastError();
 	}
 	if(acceptConnection(listen_socket, &receiver_sock) == FALSE){
-		//todo: error...
+		fprintf(stderr, "Failed to accept Receiver's socket, error_code: 0x%x\n", reciever_port, GetLastError());
+		return GetLastError();
 	}
+	closeSocket(listen_socket);
 
 	//wait for sender...
 	if(sockListen(sender_port, &listen_socket) == FALSE){
-		//todo: error...
+		fprintf(stderr, "Failed to listen to Sender on port %d, error_code: 0x%x\n", sender_port, GetLastError());
+		return GetLastError();
 	}
 	if(acceptConnection(listen_socket, &sender_sock) == FALSE){
-		//todo: error...
+		fprintf(stderr, "Failed to accept Sender's socket, error_code: 0x%x\n", reciever_port, GetLastError());
+		return GetLastError();
 	}
+	closeSocket(listen_socket);
 
 	getpeername(sender_sock, &sender_addr, NULL);
 	sender_ip = inet_ntoa(((struct sockaddr_in*)&sender_addr)->sin_addr);
@@ -83,6 +91,7 @@ int main(int argc, char* argv[])
 
 	while(readByteFromSocket(sender_sock, &byte) == TRUE)
 	{
+		total_bytes_received++;
 		byte = addErrorToByte(byte, error, &num_of_changes);
 		total_changes += num_of_changes;
 		writeByteToSocket(receiver_sock, byte);

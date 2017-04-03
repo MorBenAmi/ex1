@@ -23,6 +23,6 @@ BOOL readByteFromSocket(SOCKET sock, unsigned char *byte);
 
 BOOL writeByteToSocket(SOCKET sock, unsigned char byte);
 
-BOOL connectSocket(int port, char* ip, SOCKET* socket);
+BOOL connectSocket(char * address, int port, SOCKET *socket_client);
 
 #endif

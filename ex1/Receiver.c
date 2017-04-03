@@ -26,9 +26,15 @@ int main(int argc, char* argv[])
 	openFile(output_path);
 
 	if (initWSA() == FALSE)
-		printf("Failed to init WSA, Error_Code: 0x%x\n", GetLastError());
-	if (connectSocket(address, port, &socket) == FALSE)
+	{
+		fprintf(stderr, "Failed to init WSA, Error_Code: 0x%x\n", GetLastError());
 		exit(GetLastError());
+	}
+	if (connectSocket(address, port, &socket) == FALSE)
+	{
+		fprintf(stderr, "Failed to connect to socket, Error_code: 0x%x\n", GetLastError());
+		exit(GetLastError());
+	}
 
 	if (receivePacketsFromSocket(socket, buffer) == FALSE)
 	{

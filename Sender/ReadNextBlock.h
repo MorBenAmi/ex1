@@ -3,6 +3,6 @@
 
 #include <windows.h>
 
-BOOL ReadNextBlock(FILE file, unsigned char block[8]);
+BOOL ReadNextBlock(FILE *file, unsigned char block[8]);
 
 #endif
