@@ -57,10 +57,9 @@ void hammingDecoder(int current_position, char *message)
 	decoded_file.received_counter += CODE_WORD_SIZE;
 }
 
-void getDecodedResult(char *output)
+file_decorder getDecodedFile()
 {
-	sprintf(output, "received: %d bytes\nwrote: %d bytes\ncorrected: %d errors", 
-		decoded_file.received_counter, decoded_file.wrote_counter, decoded_file.corrected_counter);
+	return decoded_file;
 }
 
 void removeCheckBits(char *message, char *output, int index)

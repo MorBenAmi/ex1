@@ -14,9 +14,9 @@ typedef struct file_decorder
 	int corrected_counter;
 } file_decorder;
 
-void getDecodedResult(char *output);
+file_decorder getDecodedFile();
 
-void removeCheckBits(char *buffer, char *output, int index);
+void removeCheckBits(char *message, char *output, int index);
 
 void hammingDecoder(int current_position, char *message);
 

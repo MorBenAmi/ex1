@@ -7,8 +7,9 @@ Exercise 1*/
 #include "SocketWrapper.h"
 #include "OutputFileHandler.h"
 #include "InputHandler.h"
+#include "HammingUtil.h"
 
-#define RESULT_LENGTH 300
+#define RESULT_LENGTH 100
 /*oOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoO*/
 int main(int argc, char* argv[])
 {
@@ -17,8 +18,8 @@ int main(int argc, char* argv[])
 	SOCKET socket = NULL;
 	char buffer[BUFFER_SIZE];
 	char *output_path = NULL;
-	char decryption_result[RESULT_LENGTH];
-	
+	char result_data[RESULT_LENGTH] = { '\0' };
+
 	address = argv[1];
 	port = atoi(argv[2]);
 	output_path = argv[3];
@@ -40,10 +41,17 @@ int main(int argc, char* argv[])
 	}
 	else 
 	{
+		file_decorder decoded_file = getDecodedFile();
+			
+		sprintf (result_data, "%d,%d,%d", 
+			decoded_file.received_counter, 
+			decoded_file.wrote_counter, 
+			decoded_file.corrected_counter);
+		
 		//Finished reading from socket. Replying with result.
-		getDecodedResult(decryption_result);
-		fprintf(stderr, "%s", decryption_result);
-		if (writeToSocket(socket, decryption_result) == FALSE)
+		fprintf(stderr, "received: %d bytes\nwrote: %d bytes\ncorrected: %d errors", 
+			decoded_file.received_counter, decoded_file.wrote_counter, decoded_file.corrected_counter);
+		if (writeToSocket(socket, result_data) == FALSE)
 			printf("Failed sending to socket, Error_Code: 0x%x\n", GetLastError());
 	}
 
