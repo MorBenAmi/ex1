@@ -4,15 +4,20 @@
 #include <stdio.h>
 #include "SocketWrapper.h"
 
-unsigned char addErrorToByte(unsigned char byte, double error_prob)
+unsigned char addErrorToByte(unsigned char byte, double error_prob, int *num_of_changes)
 {
 	int i = 0;
 	unsigned char temp = 0;
+
+	*num_of_changes = 0;
 	for(i=0;i<8;i++)
 	{
 		temp=1<<i;
 		if((rand()/(RAND_MAX+1))<=error_prob)
+		{
 			byte=byte^temp;
+			*num_of_changes = (*num_of_changes) + 1;
+		}
 	}
 	return byte;
 }
@@ -27,6 +32,10 @@ int main(int argc, char* argv[])
 	SOCKET listen_socket;
 	SOCKET receiver_sock;
 	SOCKET sender_sock;
+	int num_of_changes = 0;
+	int total_changes = 0;
+	long total_bytes_received = 0;
+	long total_bytes_sent = 0;
 
 	unsigned char byte = 0;
 
@@ -63,7 +72,8 @@ int main(int argc, char* argv[])
 
 	while(readByteFromSocket(sender_sock, &byte) == TRUE)
 	{
-		byte = addErrorToByte(byte, error);
+		byte = addErrorToByte(byte, error, &num_of_changes);
+		total_changes += num_of_changes;
 		writeByteToSocket(receiver_sock, byte);
 	}
 	closeSend(receiver_sock);
@@ -72,7 +82,9 @@ int main(int argc, char* argv[])
 	{
 		writeByteToSocket(sender_sock, byte);
 	}
+	closeSocket(receiver_sock);
 	closeSend(sender_sock);
+	closeSocket(sender_sock);
 	return 0;
 }
 

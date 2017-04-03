@@ -16,6 +16,7 @@ int main(int argc, char* argv[])
 	unsigned char block[8] = { 0 };
 	unsigned char hamming_block[8] = { 0 };
 	SOCKET channel_socket;
+	unsigned char response_byte;
 
 	//todo: uncomment for test
 	/*unsigned char block_test[8] = {139,139,139,139,139,139,139,1};
@@ -53,7 +54,14 @@ int main(int argc, char* argv[])
 	}
 	closeSend(channel_socket);
 
+
 	//todo: wait for channel response
+	while(readByteFromSocket(channel_socket, &response_byte) == TRUE)
+	{
+		//todo: handle the message...
+	}
+	closeSocket(channel_socket);
+
 
 	//todo: print channel response
 

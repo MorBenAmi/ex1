@@ -11,7 +11,7 @@ BOOL init_WSA();
 
 void clean_WSA();
 
-void close_socket(SOCKET sock);
+void closeSocket(SOCKET sock);
 
 void closeSend(SOCKET sock);
 
