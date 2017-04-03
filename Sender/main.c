@@ -42,8 +42,8 @@ int main(int argc, char* argv[])
 	file=fopen(file_name, "r");
 	if (file == NULL)
 	{
-		printf("Unable to open log file\n");
-		exit(GetLastError());
+		printf("Unable to open file\n");
+		return GetLastError();
 	}
 
 	while(ReadNextBlock(*file, block) == TRUE)
