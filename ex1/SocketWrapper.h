@@ -13,10 +13,6 @@ BOOL initWSA();
 
 void cleanWSA();
 
-BOOL acceptConnection(SOCKET listen_socket, SOCKET* accepted_socket);
-
-BOOL sockListen(int port, int max_connections, SOCKET* listen_sock);
-
 void closeSocket(SOCKET sock);
 
 BOOL receivePacketsFromSocket(SOCKET socket, char* received_message);

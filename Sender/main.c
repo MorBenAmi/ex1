@@ -6,6 +6,8 @@
 #include "TransformHammingBlock.h"
 #include "WriteHammingBlockToSocket.h"
 
+#define MAX_FINISH_MESSAGE_LENGTH 1024
+
 /*oOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoO*/
 int main(int argc, char* argv[])
 {
@@ -16,7 +18,11 @@ int main(int argc, char* argv[])
 	unsigned char block[8] = { 0 };
 	unsigned char hamming_block[8] = { 0 };
 	SOCKET channel_socket;
-	unsigned char response_byte;
+	char finish_message[MAX_FINISH_MESSAGE_LENGTH];
+	char *bytes_received = NULL;
+	char *bytes_reconstructed = NULL;
+	char *errors_corrected = NULL;
+
 
 	//todo: uncomment for test
 	/*unsigned char block_test[8] = {139,139,139,139,139,139,139,1};
@@ -55,16 +61,21 @@ int main(int argc, char* argv[])
 	closeSend(channel_socket);
 
 
-	//todo: wait for channel response
-	while(readByteFromSocket(channel_socket, &response_byte) == TRUE)
+	memset(finish_message, '\0', MAX_FINISH_MESSAGE_LENGTH);
+	if(receiveFromSocket(channel_socket, finish_message) == FALSE)
 	{
-		//todo: handle the message...
+		//todo: error while receiving finish message from channel
 	}
 	closeSocket(channel_socket);
 
+	bytes_received = strtok(finish_message, ",");
+	bytes_reconstructed = strtok(NULL, ",");
+	errors_corrected = strtok(NULL, ",");
+	
+	fprintf(stderr, "received: %s bytes\n", bytes_received);
+	fprintf(stderr, "reconstructed: %s bytes\n", bytes_reconstructed);
+	fprintf(stderr, "corrected: %s errors\n", errors_corrected);
 
-	//todo: print channel response
-
-	//
+	cleanWSA();
 	return 0;
 }

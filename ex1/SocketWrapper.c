@@ -21,39 +21,7 @@ void cleanWSA()
 
 void closeSocket(SOCKET sock)
 {
-	char buffer[2];
-	int result = 0;
-
-	shutdown(sock, SD_SEND);
-
-	do
-	{
-		result = recv(sock, buffer, 1,0);
-	} while( result > 0);
-
 	closesocket(sock);
-}
-
-BOOL acceptConnection(SOCKET listen_socket, SOCKET* accepted_socket)
-{
-	struct sockaddr_in connect_socket_addr;
-	int addr_len;
-	*accepted_socket = INVALID_SOCKET;
-
-	addr_len = sizeof(connect_socket_addr);
-	*accepted_socket = accept(listen_socket, (struct sockaddr*)&connect_socket_addr, &addr_len);
-	if(*accepted_socket == INVALID_SOCKET)
-	{
-		if(WSAGetLastError() == WSAEWOULDBLOCK)
-		{
-			//no waiting socket.. return true but not socket was accepted!
-			WSASetLastError(0);
-			return TRUE;
-		}
-		SetLastError(WSAGetLastError());
-		return FALSE;
-	}
-	return TRUE;
 }
 
 //Receive a message from the socket until shutdown recieved

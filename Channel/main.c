@@ -8,7 +8,6 @@ unsigned char addErrorToByte(unsigned char byte, double error_prob, int *num_of_
 {
 	int i = 0;
 	unsigned char temp = 0;
-
 	*num_of_changes = 0;
 	for(i=0;i<8;i++)
 	{
@@ -35,8 +34,10 @@ int main(int argc, char* argv[])
 	int num_of_changes = 0;
 	int total_changes = 0;
 	long total_bytes_received = 0;
-	long total_bytes_sent = 0;
-
+	struct sockaddr sender_addr;
+	char* sender_ip = NULL;
+	struct sockaddr receiver_addr;
+	char* receiver_ip = NULL;
 	unsigned char byte = 0;
 
 	if(argc!=4)
@@ -47,6 +48,11 @@ int main(int argc, char* argv[])
 
 	//init random
 	srand(random_seed);
+
+	if(initWSA() == FALSE)
+	{
+		//todo: error...
+	}
 
 	sender_port=atoi(argv[1]);
 	reciever_port=atoi(argv[2]);
@@ -69,6 +75,11 @@ int main(int argc, char* argv[])
 		//todo: error...
 	}
 
+	getpeername(sender_sock, &sender_addr, NULL);
+	sender_ip = inet_ntoa(((struct sockaddr_in*)&sender_addr)->sin_addr);
+
+	getpeername(receiver_sock, &receiver_addr, NULL);
+	receiver_ip = inet_ntoa(((struct sockaddr_in*)&receiver_addr)->sin_addr);
 
 	while(readByteFromSocket(sender_sock, &byte) == TRUE)
 	{
@@ -82,9 +93,15 @@ int main(int argc, char* argv[])
 	{
 		writeByteToSocket(sender_sock, byte);
 	}
-	closeSocket(receiver_sock);
 	closeSend(sender_sock);
+
+	closeSocket(receiver_sock);
 	closeSocket(sender_sock);
+	cleanWSA();
+
+	fprintf(stderr, "sender: %s\n",sender_ip);
+	fprintf(stderr, "receiver: %s\n",receiver_ip);
+	fprintf(stderr, "%d bytes flipped %d bits\n", total_bytes_received, total_changes);
 	return 0;
 }
 

@@ -7,15 +7,17 @@
 #include <conio.h>
 #pragma comment(lib, "ws2_32.lib")
 
-BOOL init_WSA();
+BOOL initWSA();
 
-void clean_WSA();
+void cleanWSA();
 
 void closeSocket(SOCKET sock);
 
 void closeSend(SOCKET sock);
 
 void closeRead(SOCKET sock);
+
+BOOL receiveFromSocket(SOCKET socket, char* message);
 
 BOOL readByteFromSocket(SOCKET sock, unsigned char *byte);
 

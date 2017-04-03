@@ -1,6 +1,6 @@
 #include "SocketWrapper.h"
 
-BOOL init_WSA()
+BOOL initWSA()
 {
 	WSADATA wsaData;
     int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -12,7 +12,7 @@ BOOL init_WSA()
 	return TRUE;
 }
 
-void clean_WSA()
+void cleanWSA()
 {
 	WSACleanup();
 }
@@ -20,16 +20,6 @@ void clean_WSA()
 //todo: change this!
 void closeSocket(SOCKET sock)
 {
-	char buffer[2];
-	int result = 0;
-
-	shutdown(sock, SD_SEND);
-
-	do
-	{
-		result = recv(sock, buffer, 1,0);
-	} while( result > 0);
-
 	closesocket(sock);
 }
 

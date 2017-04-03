@@ -1,6 +1,6 @@
 #include "SocketWrapper.h"
 
-BOOL init_WSA()
+BOOL initWSA()
 {
 	WSADATA wsaData;
     int iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -12,7 +12,7 @@ BOOL init_WSA()
 	return TRUE;
 }
 
-void clean_WSA()
+void cleanWSA()
 {
 	WSACleanup();
 }
@@ -41,6 +41,28 @@ void closeSend(SOCKET sock)
 void closeRead(SOCKET sock)
 {
 	shutdown(sock, SD_RECEIVE);
+}
+
+BOOL receiveFromSocket(SOCKET socket, char* message)
+{
+	char* cur_place_ptr = message;
+	int bytes_just_transferred;
+	
+	while (1)  
+	{
+		/* send does not guarantee that the entire message is sent */
+		bytes_just_transferred = recv(socket, cur_place_ptr, 1, 0);
+		if (bytes_just_transferred == SOCKET_ERROR) 
+		{
+			SetLastError(WSAGetLastError());
+			return FALSE;
+		}
+		else if (bytes_just_transferred == 0) 
+			return TRUE; // recv() returns zero if connection was gracefully disconnected.
+
+		cur_place_ptr += bytes_just_transferred; // <ISP> pointer arithmetic
+	}
+	return TRUE;
 }
 
 BOOL readByteFromSocket(SOCKET socket, unsigned char *byte)
