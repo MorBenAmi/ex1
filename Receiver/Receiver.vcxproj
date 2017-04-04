@@ -10,10 +10,23 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="HammingUtil.c" />
+    <ClCompile Include="InputHandler.c" />
+    <ClCompile Include="OutputFileHandler.c" />
+    <ClCompile Include="Receiver.c" />
+    <ClCompile Include="SocketWrapper.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HammingUtil.h" />
+    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="OutputFileHandler.h" />
+    <ClInclude Include="SocketWrapper.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{65AE05FB-EEA7-4557-9A65-1799AC5954DB}</ProjectGuid>
+    <ProjectGuid>{EDB9C6C1-0F2D-4F4B-AD99-C213D7277C9C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ex1</RootNamespace>
+    <RootNamespace>Receiver</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -30,18 +43,10 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -81,19 +86,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="HammingUtil.c" />
-    <ClCompile Include="InputHandler.c" />
-    <ClCompile Include="OutputFileHandler.c" />
-    <ClCompile Include="Receiver.c" />
-    <ClCompile Include="SocketWrapper.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="HammingUtil.h" />
-    <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="OutputFileHandler.h" />
-    <ClInclude Include="SocketWrapper.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
