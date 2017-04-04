@@ -66,12 +66,12 @@ BOOL receivePacketsFromSocket(SOCKET socket, char* buffer)
 	while (1)  
 	{
 		/* send does not guarantee that the entire message is sent */
-		count = recv(socket, cur_place_ptr, BUFFER_SIZE, 0);
+		count = recv(socket, cur_place_ptr, BUFFER_SIZE - total_received, 0);
 		while(WSAGetLastError() == WSAEWOULDBLOCK) //when the socket is nonblocking: no data available yet
 		{
 			WSASetLastError(0);
 			Sleep(100);
-			count = recv(socket, cur_place_ptr, BUFFER_SIZE, 0);
+			count = recv(socket, cur_place_ptr, BUFFER_SIZE - total_received, 0);
 		}
 		if (count == SOCKET_ERROR) 
 		{
@@ -88,7 +88,7 @@ BOOL receivePacketsFromSocket(SOCKET socket, char* buffer)
 			decodeMessage(buffer);
 			
 			cur_place_ptr = buffer;
-			total_received = count;
+			total_received = 0;
 		} else {
 			cur_place_ptr += count; // <ISP> pointer arithmetic
 		}
