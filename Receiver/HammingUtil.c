@@ -58,7 +58,7 @@ void removeCheckBits(char *message, char *output, int index)
 	int position_code = index * CODE_WORD_SIZE;
 	int position_data = index * CODE_DATA_SIZE;
 
-	for (i = 0; i < CODE_WORD_SIZE; i++, position_code++) //todo
+	for (i = 0; i < CODE_WORD_SIZE; i++, position_code++) 
 	{
 		if (isPowerOfTwo((i + 1)))
 		{
