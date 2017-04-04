@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "ReadNextBlock.h"
 
-static char extra_bits = 0;
+static unsigned char extra_bits = 0;
+
 static int extra_bits_count = 0;
 
 BOOL ReadNextBlock(FILE *file, unsigned char block[8])
