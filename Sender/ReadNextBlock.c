@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "ReadNextBlock.h"
 
-static char extra_bits = 0;
+static unsinged char extra_bits = 0;
 static int extra_bits_count = 0;
 
 BOOL ReadNextBlock(FILE *file, unsigned char block[8])
@@ -21,22 +21,22 @@ BOOL ReadNextBlock(FILE *file, unsigned char block[8])
 			return FALSE;
 
 		block[i] = next_char;
-		temp = block[i] >> (8-extra_bits_count);
-		block[i] = block[i] << extra_bits_count;
+		temp = block[i] << (8-extra_bits_count);
+		block[i] = block[i] >> extra_bits_count;
 		block[i] = block[i] | extra_bits;
 		extra_bits = temp;
 	}
 
 	if(extra_bits_count == 0)
 	{
-		extra_bits = block[7] >> 1;
+		extra_bits = block[7] << 1;
 		block[7] = block[7] & 1;
 		extra_bits_count = 7;
 	}
 	else
 	{
 		block[7] = extra_bits & 1;
-		extra_bits = extra_bits >> 1;
+		extra_bits = extra_bits << 1;
 		extra_bits_count--;
 	}
 	return TRUE;

@@ -18,8 +18,8 @@ void WriteHammingBlockToSocket(SOCKET channel_socket, unsigned char hamming_bloc
 
 	for(i = 0; i < bytes_to_write; i++)
 	{
-		temp = hamming_block[i] >> (8-extra_bits_count);
-		hamming_block[i] = hamming_block[i] << extra_bits_count;
+		temp = hamming_block[i] << (8-extra_bits_count);
+		hamming_block[i] = hamming_block[i] >> extra_bits_count;
 		hamming_block[i] = hamming_block[i] | extra_bits;
 		writeByteToSocket(channel_socket, hamming_block[i]);
 		extra_bits = temp;

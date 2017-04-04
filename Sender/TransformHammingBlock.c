@@ -20,12 +20,12 @@ void TransformHammingBlock(unsigned char block[8], unsigned char hamming_block[8
 		m++;
 		for(j = i+1; j < i*2; j++)
 		{
-			bit = 1 << ((k-1)%8);
+			bit = 1 << (8-((k-1)%8));
 			bit = block[(k-1)/8] & bit;
-			bit = bit >> ((k-1)%8);
-			bit = bit << ((j-1)%8);
+			bit = bit >> (8-((k-1)%8));
+			bit = bit << (8-((j-1)%8));
 			hamming_block[(j-1)/8] = hamming_block[(j-1)/8] | bit;
-			bit = bit >> ((j-1)%8);
+			bit = bit >> (8-((j-1)%8));
 
 			parity_index = 1;
 			for(n = 0; n <= m; n++)
@@ -34,9 +34,9 @@ void TransformHammingBlock(unsigned char block[8], unsigned char hamming_block[8
 				bit_parity=1 << n;
 				if(bit_parity == (j & bit_parity))
 				{
-					bit = bit << ((parity_index-1)%8);
+					bit = bit << (8-((parity_index-1)%8));
 					hamming_block[(parity_index-1)/8] = hamming_block[(parity_index-1)/8] ^ bit;
-					bit = bit >> ((parity_index-1)%8);
+					bit = bit >> (8-((parity_index-1)%8));
 				}
 				parity_index = parity_index * 2;
 			}
