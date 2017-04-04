@@ -7,17 +7,8 @@
 
 #define powerTwo(x) 1 << x
 
-typedef struct file_decorder
-{
-	int received_counter;
-	int wrote_counter;
-	int corrected_counter;
-} file_decorder;
+void removeCheckBits(char *message, char *output, int index);
 
-void getDecodedResult(char *output);
-
-void removeCheckBits(char *buffer, char *output, int index);
-
-void hammingDecoder(int current_position, char *message);
+int hammingDecoder(int current_position, char *message);
 
 #endif
