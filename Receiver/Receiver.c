@@ -7,7 +7,6 @@ Exercise 1*/
 #include "SocketWrapper.h"
 #include "OutputFileHandler.h"
 #include "InputHandler.h"
-#include "HammingUtil.h"
 
 #define RESULT_LENGTH 100
 /*oOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoOoO*/

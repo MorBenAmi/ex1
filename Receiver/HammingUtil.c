@@ -12,9 +12,6 @@ int getErrorPosition(int *check_bits);
 
 int getBit(char *message, int position);
 
-//Local variable
-file_decorder decoded_file;
-
 int getErrorPosition(int *check_bits)
 {
 	int i;
@@ -26,7 +23,7 @@ int getErrorPosition(int *check_bits)
 	return result;
 }
 
-void hammingDecoder(int current_position, char *message)
+int hammingDecoder(int current_position, char *message)
 {
 	int check_bits[PARITY_SIZE] = { 0 };
 	int i;
@@ -50,16 +47,9 @@ void hammingDecoder(int current_position, char *message)
 		//Error occured at error_position
 		int index = current_position + (error_position - 1);
 		setBit(message, index, getBit(message, index) ^ 1);
-		decoded_file.corrected_counter++;
 	}
 
-	decoded_file.wrote_counter += CODE_DATA_SIZE;
-	decoded_file.received_counter += CODE_WORD_SIZE;
-}
-
-file_decorder getDecodedFile()
-{
-	return decoded_file;
+	return error_position;
 }
 
 void removeCheckBits(char *message, char *output, int index)
