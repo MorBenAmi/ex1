@@ -17,7 +17,6 @@ void cleanWSA()
 	WSACleanup();
 }
 
-//todo: change this!
 void closeSocket(SOCKET sock)
 {
 	closesocket(sock);

@@ -23,21 +23,16 @@ int main(int argc, char* argv[])
 	char *bytes_reconstructed = NULL;
 	char *errors_corrected = NULL;
 
-
-	//todo: uncomment for test
-	/*unsigned char block_test[8] = {139,139,139,139,139,139,139,1};
-	unsigned char hamming_block_test[8] = {0};
-
-	TransformHammingBlock(block_test, hamming_block_test);*/
 	if(initWSA() == FALSE)
 	{
-		//todo: error...
+		printf("Error initWSA failed");
+		return GetLastError();
 	}
 
 	if(argc!=4)
 	{
 		printf("Not enough input arguments");
-		return;
+		return GetLastError();
 	}
 
 	channel_ip = argv[1];
@@ -73,7 +68,8 @@ int main(int argc, char* argv[])
 	memset(finish_message, '\0', MAX_FINISH_MESSAGE_LENGTH);
 	if(receiveFromSocket(channel_socket, finish_message) == FALSE)
 	{
-		//todo: error while receiving finish message from channel
+		printf("Error in getting finish massage from channel");
+		return GetLastError();
 	}
 	closeSocket(channel_socket);
 

@@ -17,19 +17,8 @@ void cleanWSA()
 	WSACleanup();
 }
 
-//todo: change this!
 void closeSocket(SOCKET sock)
 {
-	char buffer[2];
-	int result = 0;
-
-	shutdown(sock, SD_SEND);
-
-	do
-	{
-		result = recv(sock, buffer, 1,0);
-	} while( result > 0);
-
 	closesocket(sock);
 }
 
@@ -125,4 +114,5 @@ BOOL connectSocket(char * address, int port, SOCKET *socket_client)
         return FALSE;
     }
 	return TRUE;
+
 }
