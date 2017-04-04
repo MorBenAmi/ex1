@@ -73,7 +73,7 @@ void removeCheckBits(char *message, char *output, int index)
 void setBit(char *message, int position, int bit)
 {
 	int charPosition = position / BITS_IN_BYTE;
-	int positionInChar = ((BITS_IN_BYTE - 1) - (position % BITS_IN_BYTE));
+	int positionInChar = (position % BITS_IN_BYTE);
 	if (bit == 0)
 		message[charPosition] &= ~(1 << positionInChar);
 	else 
@@ -82,5 +82,5 @@ void setBit(char *message, int position, int bit)
 
 int getBit(char *message, int position)
 {
-	return message[position / BITS_IN_BYTE] >> ((BITS_IN_BYTE - 1) - (position % BITS_IN_BYTE)) & 1;
+	return message[position / BITS_IN_BYTE] >> (position % BITS_IN_BYTE) & 1;
 }
